@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("dotenv/config");
+const typeorm_1 = require("typeorm");
+const port = process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306; //Converts the type if isset(dbport on .env)
+const appDataSource = new typeorm_1.DataSource({
+    type: "mysql",
+    host: process.env.DB_HOST,
+    port: port,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    entities: [`${__dirname}/**/entities/*.{ts, js}`], //allows you to search all files regardless of their extension js or ts
+    migrations: [`${__dirname}/**/migrations/*.{ts, js}`],
+});
+exports.default = appDataSource;
